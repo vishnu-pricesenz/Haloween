@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎃 Halloween Best Costume - Pricesenz</title>
+  <meta name="description"
+    content="Cast your vote for the Best Halloween Costume in the office! Vote for Best Male and Female costumes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-deep: #0a0010;
+      --bg-mid: #120020;
+      --bg-card: rgba(20, 0, 40, 0.85);
+      --purple-dark: #2d0060;
+      --purple-mid: #6200b3;
+      --purple-light: #b05aff;
+      --orange-glow: #ff7b00;
+      --orange-bright: #ff9a00;
+      --orange-warm: #ffb347;
+      --gold: #f5c842;
+      --text-primary: #f0e6ff;
+      --text-muted: #a080c0;
+      --success: #00e676;
+      --error: #ff5252;
+      --border: rgba(180, 80, 255, 0.3);
+      --border-hover: rgba(255, 123, 0, 0.6);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(100, 0, 180, 0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(200, 60, 0, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, #0a0010 0%, #050005 100%);
+    }
+
+    #particles-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .page-wrapper {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 16px 60px;
+    }
+
+    .hero {
+      width: 100%;
+      max-width: 900px;
+      margin: 32px auto 0;
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(255, 100, 0, 0.3), 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .hero img {
+      width: 100%;
+      display: block;
+      border-radius: var(--radius);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(10, 0, 16, 0.9) 100%);
+      border-radius: var(--radius);
+    }
+
+    .title-area {
+      text-align: center;
+      margin: 28px auto 10px;
+      max-width: 700px;
+    }
+
+    .title-area h1 {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      color: var(--orange-bright);
+      text-shadow:
+        0 0 20px rgba(255, 154, 0, 0.8),
+        0 0 60px rgba(255, 100, 0, 0.4),
+        3px 3px 0 rgba(0, 0, 0, 0.5);
+      letter-spacing: 2px;
+      line-height: 1.2;
+    }
+
+    .title-area .subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+
+    .title-area .subtitle span {
+      color: var(--purple-light);
+      font-weight: 600;
+    }
+
+    .form-card {
+      width: 100%;
+      max-width: 620px;
+      margin: 32px auto 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 44px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow:
+        0 0 0 1px rgba(180, 80, 255, 0.1),
+        0 20px 80px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--orange-glow), var(--purple-light), var(--orange-glow));
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    .form-card::after {
+      content: '🕷️';
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 1.4rem;
+      opacity: 0.5;
+      animation: spider-dangle 4s ease-in-out infinite;
+    }
+
+    @keyframes spider-dangle {
+
+      0%,
+      100% {
+        transform: rotate(-10deg);
+      }
+
+      50% {
+        transform: rotate(10deg);
+      }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .section-header .icon {
+      font-size: 1.6rem;
+    }
+
+    .section-header h2 {
+      font-family: 'Creepster', cursive;
+      font-size: 1.5rem;
+      color: var(--orange-warm);
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(255, 154, 0, 0.5);
+    }
+
+    .field-group {
+      margin-bottom: 22px;
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .field-group label .required {
+      color: var(--orange-bright);
+      margin-left: 3px;
+    }
+
+    .field-group input,
+    .field-group select {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      padding: 13px 16px;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .field-group input::placeholder {
+      color: rgba(160, 128, 192, 0.5);
+    }
+
+    .field-group input:focus,
+    .field-group select:focus {
+      border-color: var(--orange-bright);
+      background: rgba(255, 123, 0, 0.05);
+      box-shadow: 0 0 0 3px rgba(255, 154, 0, 0.15), 0 0 20px rgba(255, 100, 0, 0.1);
+    }
+
+    .field-group input.error,
+    .field-group select.error {
+      border-color: var(--error) !important;
+      box-shadow: 0 0 0 3px rgba(255, 82, 82, 0.15) !important;
+    }
+
+    .select-wrapper {
+      position: relative;
+    }
+
+    .select-wrapper::after {
+      content: '▾';
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--purple-light);
+      pointer-events: none;
+      font-size: 1.1rem;
+    }
+
+    .field-group select option {
+      background: #1a0030;
+      color: var(--text-primary);
+    }
+
+    .field-error {
+      font-size: 0.78rem;
+      color: var(--error);
+      margin-top: 6px;
+      display: none;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .field-error.visible {
+      display: flex;
+    }
+
+    .vote-categories {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    @media (max-width: 540px) {
+      .vote-categories {
+        grid-template-columns: 1fr;
+      }
+
+      .form-card {
+        padding: 28px 22px;
+      }
+    }
+
+    .vote-category {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .vote-category .cat-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .vote-category .cat-label .cat-icon {
+      font-size: 1.3rem;
+    }
+
+    .vote-category .cat-label span {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    .vote-category.male .cat-label span {
+      color: #7eb8ff;
+    }
+
+    .vote-category.female .cat-label span {
+      color: #ffaee0;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(180, 80, 255, 0.15);
+      margin: 28px 0;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #c05000, #ff7b00, #ff9a00);
+      color: #fff;
+      font-family: 'Creepster', cursive;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 4px 20px rgba(255, 123, 0, 0.4), 0 0 0 1px rgba(255, 200, 0, 0.2);
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(255, 123, 0, 0.6), 0 0 0 1px rgba(255, 200, 0, 0.3);
+    }
+
+    .submit-btn:hover::before {
+      opacity: 1;
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .submit-btn .btn-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #toast-container {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 360px;
+    }
+
+    .toast {
+      background: rgba(20, 0, 40, 0.97);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      border-left: 4px solid var(--purple-light);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .toast.success {
+      border-left-color: var(--success);
+    }
+
+    .toast.error {
+      border-left-color: var(--error);
+    }
+
+    .toast.warning {
+      border-left-color: var(--orange-bright);
+    }
+
+    .toast .toast-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .toast .toast-text {
+      color: var(--text-primary);
+    }
+
+    .toast .toast-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .toast .toast-msg {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(40px) scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translateX(40px) scale(0.9);
+      }
+    }
+
+    .success-overlay {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .success-overlay.visible {
+      display: flex;
+    }
+
+    .success-overlay .success-icon {
+      font-size: 5rem;
+      animation: bounce 1s ease infinite alternate;
+      margin-bottom: 20px;
+    }
+
+    @keyframes bounce {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(-12px);
+      }
+    }
+
+    .success-overlay h3 {
+      font-family: 'Creepster', cursive;
+      font-size: 2rem;
+      color: var(--orange-bright);
+      text-shadow: 0 0 20px rgba(255, 154, 0, 0.6);
+      margin-bottom: 10px;
+    }
+
+    .success-overlay p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 320px;
+      line-height: 1.6;
+    }
+
+    .page-footer {
+      margin-top: 40px;
+      text-align: center;
+      color: rgba(160, 128, 192, 0.4);
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-layer"></div>
+  <canvas id="particles-canvas"></canvas>
+  <div id="toast-container" aria-live="polite"></div>
+
+  <div class="page-wrapper">
+
+    <div class="hero">
+      <img src="halloween_banner.jpg" alt="Halloween Best Costume - Pricesenz" onerror="this.style.display='none'" />
+      <div class="hero-overlay"></div>
+    </div>
+
+    <div class="title-area">
+      <h1>🎃 Cast Your Vote!</h1>
+      <p class="subtitle">Choose the <span>Best Costume</span> for Male &amp; Female — one vote per person!</p>
+    </div>
+
+    <div class="form-card" id="form-card">
+
+      <div id="vote-form-wrapper">
+        <div class="section-header">
+          <span class="icon">👻</span>
+          <h2>Voter Details</h2>
+        </div>
+
+        <form id="vote-form" novalidate>
+
+          <div class="field-group">
+            <label for="voter-email">Your Work Email <span class="required">*</span></label>
+            <input type="email" id="voter-email" name="email" placeholder="you@company.com" autocomplete="email"
+              required />
+            <div class="field-error" id="email-error">
+              <span>⚠️</span><span id="email-error-text">Please enter a valid email address.</span>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="voter-name">Your Name <span class="required">*</span></label>
+            <input type="text" id="voter-name" name="name" placeholder="Enter your full name" autocomplete="name"
+              required />
+            <div class="field-error" id="name-error">
+              <span>⚠️</span><span>Please enter your name.</span>
+            </div>
+          </div>
+
+          <hr class="divider" />
+
+          <div class="section-header">
+            <span class="icon">🏆</span>
+            <h2>Cast Your Votes</h2>
+          </div>
+
+          <div class="vote-categories">
+
+            <div class="vote-category male">
+              <div class="cat-label">
+                <span class="cat-icon">🧔</span>
+                <span>Best Male Costume</span>
+              </div>
+              <div class="field-group" style="margin-bottom:0">
+                <input type="text" id="vote-male" name="bestMale" placeholder="Type the person's name"
+                  autocomplete="off" required />
+                <div class="field-error" id="male-error">
+                  <span>⚠️</span><span>Please enter a male candidate name.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="vote-category female">
+              <div class="cat-label">
+                <span class="cat-icon">👩</span>
+                <span>Best Female Costume</span>
+              </div>
+              <div class="field-group" style="margin-bottom:0">
+                <input type="text" id="vote-female" name="bestFemale" placeholder="Type the person's name"
+                  autocomplete="off" required />
+                <div class="field-error" id="female-error">
+                  <span>⚠️</span><span>Please enter a female candidate name.</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <button type="submit" class="submit-btn" id="submit-btn">
+            <span class="btn-content" id="btn-text">
+              <span>🕸️</span> Submit My Vote <span>🕸️</span>
+            </span>
+            <div class="spinner" id="btn-spinner"></div>
+          </button>
+
+        </form>
+      </div>
+
+      <div class="success-overlay" id="success-overlay">
+        <div class="success-icon">🎃</div>
+        <h3>Vote Submitted!</h3>
+        <p>Your spooky choices have been recorded. May the best costumes win! 👻🏆</p>
+      </div>
+
+    </div>
+
+    <div class="page-footer">
+      🦇 Halloween Office Party 2024 &nbsp;•&nbsp; One vote per person
+    </div>
+
+  </div>
+
+  <script>
+    // ============================================================
+    // ⚙️  CONFIGURATION — REPLACE THE URL BELOW WITH YOURS
+    // ============================================================
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz0Gwj9WhX1AvK697hO-TU5YARyZk3y-eLknw_9epR4Nm5Z-eeI90MzFRG8WFrZwD30jg/exec';
+    // ^ Paste your Google Apps Script Web App exec URL above ☝️
+
+    // ============================================================
+    // PARTICLES ANIMATION
+    // ============================================================
+    (function initParticles() {
+      const canvas = document.getElementById('particles-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [];
+      const EMOJIS = ['🦇', '🕷️', '🌙', '⭐', '✨', '🍂', '🕯️'];
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      function Particle() {
+        this.x = Math.random() * W;
+        this.y = Math.random() * H + H;
+        this.speed = 0.3 + Math.random() * 0.7;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.size = 12 + Math.random() * 14;
+        this.emoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+        this.opacity = 0.15 + Math.random() * 0.35;
+        this.rot = Math.random() * 360;
+        this.rotSpeed = (Math.random() - 0.5) * 0.8;
+      }
+
+      function spawnParticles(n) {
+        for (let i = 0; i < n; i++) {
+          const p = new Particle();
+          p.y = Math.random() * H;
+          particles.push(p);
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach((p, i) => {
+          p.y -= p.speed;
+          p.x += p.vx;
+          p.rot += p.rotSpeed;
+          if (p.y < -40) { particles[i] = new Particle(); return; }
+          ctx.save();
+          ctx.globalAlpha = p.opacity;
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rot * Math.PI) / 180);
+          ctx.font = p.size + 'px serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(p.emoji, 0, 0);
+          ctx.restore();
+        });
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      spawnParticles(28);
+      animate();
+    })();
+
+    // ============================================================
+    // TOAST HELPER
+    // ============================================================
+    function showToast(type, title, message, duration) {
+      duration = duration || 5000;
+      const container = document.getElementById('toast-container');
+      const icons = { success: '✅', error: '🚫', warning: '⚠️', info: 'ℹ️' };
+      const toast = document.createElement('div');
+      toast.className = 'toast ' + type;
+      toast.innerHTML =
+        '<div class="toast-icon">' + (icons[type] || 'ℹ️') + '</div>' +
+        '<div class="toast-text">' +
+        '<div class="toast-title">' + title + '</div>' +
+        (message ? '<div class="toast-msg">' + message + '</div>' : '') +
+        '</div>';
+      container.appendChild(toast);
+      setTimeout(function () {
+        toast.style.animation = 'fadeOut 0.4s ease forwards';
+        setTimeout(function () { toast.remove(); }, 400);
+      }, duration);
+    }
+
+    // ============================================================
+    // FORM VALIDATION HELPERS
+    // ============================================================
+    function setError(inputId, errorId, visible) {
+      var input = document.getElementById(inputId);
+      var error = document.getElementById(errorId);
+      if (visible) {
+        if (input) input.classList.add('error');
+        if (error) error.classList.add('visible');
+      } else {
+        if (input) input.classList.remove('error');
+        if (error) error.classList.remove('visible');
+      }
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    }
+
+    function validateForm(email, name, male, female) {
+      var valid = true;
+      if (!isValidEmail(email)) {
+        setError('voter-email', 'email-error', true);
+        valid = false;
+      } else {
+        setError('voter-email', 'email-error', false);
+      }
+      if (!name.trim()) {
+        setError('voter-name', 'name-error', true);
+        valid = false;
+      } else {
+        setError('voter-name', 'name-error', false);
+      }
+      if (!male) {
+        setError('vote-male', 'male-error', true);
+        valid = false;
+      } else {
+        setError('vote-male', 'male-error', false);
+      }
+      if (!female) {
+        setError('vote-female', 'female-error', true);
+        valid = false;
+      } else {
+        setError('vote-female', 'female-error', false);
+      }
+      return valid;
+    }
+
+    // Clear errors on input
+    ['voter-email', 'voter-name', 'vote-male', 'vote-female'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', function () { el.classList.remove('error'); });
+      el.addEventListener('change', function () { el.classList.remove('error'); });
+    });
+
+    // ============================================================
+    // SUBMIT HANDLER
+    // ============================================================
+    document.getElementById('vote-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var emailEl = document.getElementById('voter-email');
+      var nameEl = document.getElementById('voter-name');
+      var maleEl = document.getElementById('vote-male');
+      var femaleEl = document.getElementById('vote-female');
+      var btn = document.getElementById('submit-btn');
+      var spinner = document.getElementById('btn-spinner');
+      var btnText = document.getElementById('btn-text');
+
+      var email = emailEl.value.trim();
+      var name = nameEl.value.trim();
+      var male = maleEl.value;
+      var female = femaleEl.value;
+
+      if (!validateForm(email, name, male, female)) {
+        showToast('warning', 'Check your form', 'Please fill in all required fields.');
+        return;
+      }
+
+      btn.disabled = true;
+      spinner.style.display = 'block';
+      btnText.style.display = 'none';
+
+      // Single GET call — Apps Script handles duplicate check + write atomically
+      var voteUrl = GOOGLE_SCRIPT_URL
+        + '?action=vote'
+        + '&email='  + encodeURIComponent(email)
+        + '&name='   + encodeURIComponent(name)
+        + '&male='   + encodeURIComponent(male)
+        + '&female=' + encodeURIComponent(female);
+
+      fetch(voteUrl)
+        .then(function (res) {
+          if (!res.ok) throw new Error('Server error: ' + res.status);
+          return res.json();
+        })
+        .then(function (result) {
+          if (result.ok && result.saved) {
+            document.getElementById('vote-form-wrapper').style.display = 'none';
+            document.getElementById('success-overlay').classList.add('visible');
+            showToast('success', 'Vote Recorded! 🎃', 'Thanks ' + name + '! Your spooky choices are saved.', 6000);
+          } else {
+            var msgs = {
+              duplicate:      'This email has already submitted a vote!',
+              invalid_email:  'That email address is not valid.',
+              missing_fields: 'Please fill in all required fields.',
+              server_error:   'A server error occurred. Please try again.',
+              unknown_action: 'Script not updated yet — please redeploy a new version in Apps Script.'
+            };
+            if (result.error === 'duplicate') {
+              setError('voter-email', 'email-error', true);
+              document.getElementById('email-error-text').textContent = msgs.duplicate;
+            }
+            throw new Error(msgs[result.error] || result.error || 'Unknown error.');
+          }
+        })
+        .catch(function (err) {
+          console.error('Vote error:', err);
+          showToast('error', 'Something went wrong!', err.message || 'Please try again in a moment.');
+        })
+        .finally(function () {
+          btn.disabled = false;
+          spinner.style.display = 'none';
+          btnText.style.display = 'flex';
+        });
+    });
+  </script>
+</body>
+
+</html>
