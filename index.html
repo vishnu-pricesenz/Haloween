@@ -568,7 +568,7 @@
   <div class="page-wrapper">
 
     <div class="hero">
-      <img src="halloween_banner.jpg" alt="Halloween Best Costume - Pricesenz" onerror="this.style.display='none'" />
+      <img src="image 1.png" alt="Halloween Best Costume - Pricesenz" onerror="this.style.display='none'" />
       <div class="hero-overlay"></div>
     </div>
 
@@ -663,7 +663,7 @@
     </div>
 
     <div class="page-footer">
-      🦇 Halloween Office Party 2024 &nbsp;•&nbsp; One vote per person
+      🦇 Halloween Office Party 2026 &nbsp;•&nbsp; One vote per person
     </div>
 
   </div>
@@ -844,9 +844,9 @@
       // Single GET call — Apps Script handles duplicate check + write atomically
       var voteUrl = GOOGLE_SCRIPT_URL
         + '?action=vote'
-        + '&email='  + encodeURIComponent(email)
-        + '&name='   + encodeURIComponent(name)
-        + '&male='   + encodeURIComponent(male)
+        + '&email=' + encodeURIComponent(email)
+        + '&name=' + encodeURIComponent(name)
+        + '&male=' + encodeURIComponent(male)
         + '&female=' + encodeURIComponent(female);
 
       fetch(voteUrl)
@@ -861,10 +861,10 @@
             showToast('success', 'Vote Recorded! 🎃', 'Thanks ' + name + '! Your spooky choices are saved.', 6000);
           } else {
             var msgs = {
-              duplicate:      'This email has already submitted a vote!',
-              invalid_email:  'That email address is not valid.',
+              duplicate: 'This email has already submitted a vote!',
+              invalid_email: 'That email address is not valid.',
               missing_fields: 'Please fill in all required fields.',
-              server_error:   'A server error occurred. Please try again.',
+              server_error: 'A server error occurred. Please try again.',
               unknown_action: 'Script not updated yet — please redeploy a new version in Apps Script.'
             };
             if (result.error === 'duplicate') {
