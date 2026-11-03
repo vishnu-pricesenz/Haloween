@@ -1,11 +1,20 @@
 /**
- * Halloween costume vote — Google Apps Script backend
- * Bind this script to the Google Sheet that will store the votes
- * (Extensions > Apps Script), then deploy as a Web app.
+ * Halloween Event Feedback — Google Apps Script backend
+ * Extensions > Apps Script > paste > Deploy as Web App (Anyone)
+ *
+ * Sheet columns (auto-created if sheet 'Feedback' doesn't exist):
+ *   A: Timestamp
+ *   B: Email          <-- duplicate check
+ *   C: Name
+ *   D: Program Rating  (Good / Kind Satisfied / Average / Not Satisfied)
+ *   E: Feedback        (short description)
+ *   F: Next Event      (chosen/typed suggestion)
  */
 
-const SHEET_NAME = 'Votes';
-const HEADERS = ['Timestamp', 'Email', 'Name', 'Best Costume Male', 'Best Costume Female'];
+const SHEET_NAME = 'Feedback';
+const HEADERS    = ['Timestamp', 'Email', 'Name', 'Program Rating', 'Feedback', 'Next Event'];
+
+// ── helpers ─────────────────────────────────────────────────────
 
 function getSheet_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -14,14 +23,12 @@ function getSheet_() {
     sh = ss.insertSheet(SHEET_NAME);
     sh.appendRow(HEADERS);
     sh.setFrozenRows(1);
-    sh.getRange('B:B').setNumberFormat('@'); // keep emails as plain text
+    sh.getRange('B:B').setNumberFormat('@');   // emails as plain text
   }
   return sh;
 }
 
-function normalize_(email) {
-  return String(email || '').trim().toLowerCase();
-}
+function normalize_(v) { return String(v || '').trim().toLowerCase(); }
 
 function emailExists_(sh, email) {
   const last = sh.getLastRow();
@@ -30,9 +37,8 @@ function emailExists_(sh, email) {
   return emails.some(function (e) { return normalize_(e) === email; });
 }
 
-// Stops values like =HYPERLINK(...) from being run as formulas in the sheet
-function clean_(value) {
-  const s = String(value || '').trim().slice(0, 200);
+function clean_(v) {
+  const s = String(v || '').trim().slice(0, 300);
   return /^[=+\-@]/.test(s) ? "'" + s : s;
 }
 
@@ -41,32 +47,53 @@ function json_(obj) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// Used by the page to check an email OR submit a vote (GET avoids CORS preflight)
+// ── doGet ────────────────────────────────────────────────────────
+// All requests come in as GET to avoid CORS preflight issues.
+
 function doGet(e) {
   const p = (e && e.parameter) || {};
 
+  // ── Check duplicate email ────────────────────────────
   if (p.action === 'check') {
     const email = normalize_(p.email);
     return json_({ exists: email ? emailExists_(getSheet_(), email) : false });
   }
 
-  if (p.action === 'vote') {
+  // ── Submit feedback ──────────────────────────────────
+  if (p.action === 'feedback') {
     const lock = LockService.getScriptLock();
     try {
       lock.waitLock(20000);
-      const email  = normalize_(p.email);
-      const name   = String(p.name   || '').trim();
-      const male   = String(p.male   || '').trim();
-      const female = String(p.female || '').trim();
 
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json_({ ok: false, error: 'invalid_email' });
-      if (!name || !male || !female) return json_({ ok: false, error: 'missing_fields' });
+      const email    = normalize_(p.email);
+      const name     = String(p.name     || '').trim();
+      const rating   = String(p.rating   || '').trim();
+      const feedback = String(p.feedback || '').trim();
+      const next     = String(p.next     || '').trim();
 
+      // Validate
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+        return json_({ ok: false, error: 'invalid_email' });
+      if (!name || !rating || !feedback || !next)
+        return json_({ ok: false, error: 'missing_fields' });
+
+      // Duplicate check
       const sh = getSheet_();
-      if (emailExists_(sh, email)) return json_({ ok: false, error: 'duplicate' });
+      if (emailExists_(sh, email))
+        return json_({ ok: false, error: 'duplicate' });
 
-      sh.appendRow([new Date(), email, clean_(name), clean_(male), clean_(female)]);
+      // Write row
+      sh.appendRow([
+        new Date(),
+        email,
+        clean_(name),
+        clean_(rating),
+        clean_(feedback),
+        clean_(next)
+      ]);
+
       return json_({ ok: true, saved: true });
+
     } catch (err) {
       return json_({ ok: false, error: 'server_error' });
     } finally {
@@ -74,32 +101,11 @@ function doGet(e) {
     }
   }
 
-  // Unknown action — likely a stale deployment
+  // Unknown action
   return json_({ ok: false, error: 'unknown_action' });
 }
 
+// ── doPost (kept as fallback, not used by current page) ──────────
 function doPost(e) {
-  const lock = LockService.getScriptLock();
-  try {
-    lock.waitLock(20000); // prevents two simultaneous submissions slipping past the duplicate check
-    const data = JSON.parse(e.postData.contents);
-
-    const email = normalize_(data.email);
-    const name = String(data.name || '').trim();
-    const male = String(data.male || '').trim();
-    const female = String(data.female || '').trim();
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json_({ ok: false, error: 'invalid_email' });
-    if (!name || !male || !female) return json_({ ok: false, error: 'missing_fields' });
-
-    const sh = getSheet_();
-    if (emailExists_(sh, email)) return json_({ ok: false, error: 'duplicate' });
-
-    sh.appendRow([new Date(), email, clean_(name), clean_(male), clean_(female)]);
-    return json_({ ok: true });
-  } catch (err) {
-    return json_({ ok: false, error: 'server_error' });
-  } finally {
-    try { lock.releaseLock(); } catch (x) { }
-  }
+  return json_({ ok: false, error: 'use_get' });
 }

@@ -4,9 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎃 Halloween Best Costume - Pricesenz</title>
-  <meta name="description"
-    content="Cast your vote for the Best Halloween Costume in the office! Vote for Best Male and Female costumes." />
+  <title>🎃 Halloween Event Feedback - Pricesenz</title>
+  <meta name="description" content="Share your feedback about the Halloween event at Pricesenz!" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@300;400;500;600;700&display=swap"
@@ -22,25 +21,26 @@
     }
 
     :root {
-      --bg-deep: #0a0010;
-      --bg-mid: #120020;
-      --bg-card: rgba(20, 0, 40, 0.85);
-      --purple-dark: #2d0060;
-      --purple-mid: #6200b3;
+      --bg-deep: #080010;
+      --bg-card: rgba(16, 0, 32, 0.9);
       --purple-light: #b05aff;
       --orange-glow: #ff7b00;
       --orange-bright: #ff9a00;
       --orange-warm: #ffb347;
-      --gold: #f5c842;
       --text-primary: #f0e6ff;
       --text-muted: #a080c0;
       --success: #00e676;
       --error: #ff5252;
-      --border: rgba(180, 80, 255, 0.3);
-      --border-hover: rgba(255, 123, 0, 0.6);
+      --border: rgba(180, 80, 255, 0.25);
       --radius: 16px;
       --radius-sm: 10px;
       --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Rating colors */
+      --r1: #ff3333;
+      --r2: #ff8800;
+      --r3: #f5c842;
+      --r4: #00e676;
     }
 
     html {
@@ -53,18 +53,18 @@
       color: var(--text-primary);
       min-height: 100vh;
       overflow-x: hidden;
-      position: relative;
     }
 
+    /* ===== BG & PARTICLES ===== */
     .bg-layer {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 0;
       background:
-        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(100, 0, 180, 0.25) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(200, 60, 0, 0.15) 0%, transparent 60%),
-        radial-gradient(ellipse 100% 100% at 50% 50%, #0a0010 0%, #050005 100%);
+        radial-gradient(ellipse 80% 50% at 15% 10%, rgba(100, 0, 180, 0.28) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 85% 85%, rgba(220, 60, 0, 0.18) 0%, transparent 60%),
+        #080010;
     }
 
     #particles-canvas {
@@ -74,6 +74,31 @@
       z-index: 1;
     }
 
+    /* ===== DRIP EFFECT TOP ===== */
+    .drip-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      height: 28px;
+      pointer-events: none;
+      background: linear-gradient(90deg, #ff7b00, #b05aff, #ff7b00);
+    }
+
+    .drip-bar::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      right: 0;
+      height: 24px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 24'%3E%3Cpath fill='%23ff7b00' d='M0 0 C100 0 100 24 200 24 C300 24 300 0 400 0 C500 0 500 24 600 24 C700 24 700 0 800 0 C900 0 900 24 1000 24 C1100 24 1100 0 1200 0 Z'/%3E%3C/svg%3E") repeat-x;
+      background-size: 300px 24px;
+      opacity: 0.7;
+    }
+
+    /* ===== LAYOUT ===== */
     .page-wrapper {
       position: relative;
       z-index: 2;
@@ -81,14 +106,14 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0 16px 60px;
+      padding: 50px 16px 60px;
     }
 
+    /* ===== HERO ===== */
     .hero {
       width: 100%;
       max-width: 900px;
-      margin: 32px auto 0;
-      position: relative;
+      margin: 12px auto 0;
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: 0 0 60px rgba(255, 100, 0, 0.3), 0 20px 60px rgba(0, 0, 0, 0.6);
@@ -98,39 +123,39 @@
       width: 100%;
       display: block;
       border-radius: var(--radius);
+      max-height: 320px;
+      object-fit: cover;
+      object-position: top;
     }
 
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, transparent 40%, rgba(10, 0, 16, 0.9) 100%);
+      background: linear-gradient(to bottom, transparent 40%, rgba(8, 0, 16, 0.92) 100%);
       border-radius: var(--radius);
     }
 
+    /* ===== TITLES ===== */
     .title-area {
       text-align: center;
-      margin: 28px auto 10px;
+      margin: 24px auto 8px;
       max-width: 700px;
     }
 
     .title-area h1 {
       font-family: 'Creepster', cursive;
-      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-size: clamp(2rem, 5.5vw, 3.6rem);
       color: var(--orange-bright);
-      text-shadow:
-        0 0 20px rgba(255, 154, 0, 0.8),
-        0 0 60px rgba(255, 100, 0, 0.4),
-        3px 3px 0 rgba(0, 0, 0, 0.5);
+      text-shadow: 0 0 20px rgba(255, 154, 0, 0.8), 0 0 60px rgba(255, 100, 0, 0.4), 3px 3px 0 rgba(0, 0, 0, 0.5);
       letter-spacing: 2px;
       line-height: 1.2;
     }
 
     .title-area .subtitle {
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: var(--text-muted);
       margin-top: 8px;
       font-weight: 300;
-      letter-spacing: 0.5px;
     }
 
     .title-area .subtitle span {
@@ -138,24 +163,22 @@
       font-weight: 600;
     }
 
+    /* ===== FORM CARD ===== */
     .form-card {
       width: 100%;
-      max-width: 620px;
-      margin: 32px auto 0;
+      max-width: 640px;
+      margin: 28px auto 0;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 40px 44px;
+      padding: 36px 42px;
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow:
-        0 0 0 1px rgba(180, 80, 255, 0.1),
-        0 20px 80px rgba(0, 0, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 0 1px rgba(180, 80, 255, 0.08), 0 20px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
       position: relative;
       overflow: hidden;
     }
 
+    /* Animated top border */
     .form-card::before {
       content: '';
       position: absolute;
@@ -178,13 +201,14 @@
       }
     }
 
+    /* Spider corner */
     .form-card::after {
       content: '🕷️';
       position: absolute;
-      top: 12px;
-      right: 16px;
-      font-size: 1.4rem;
-      opacity: 0.5;
+      top: 10px;
+      right: 14px;
+      font-size: 1.3rem;
+      opacity: 0.45;
       animation: spider-dangle 4s ease-in-out infinite;
     }
 
@@ -200,32 +224,34 @@
       }
     }
 
+    /* ===== SECTION HEADERS ===== */
     .section-header {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     .section-header .icon {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
     }
 
     .section-header h2 {
       font-family: 'Creepster', cursive;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       color: var(--orange-warm);
       letter-spacing: 1px;
       text-shadow: 0 0 10px rgba(255, 154, 0, 0.5);
     }
 
+    /* ===== FIELD GROUP ===== */
     .field-group {
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
     .field-group label {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
       color: var(--text-muted);
       text-transform: uppercase;
@@ -233,133 +259,267 @@
       margin-bottom: 8px;
     }
 
-    .field-group label .required {
+    .field-group label .req {
       color: var(--orange-bright);
       margin-left: 3px;
     }
 
     .field-group input,
-    .field-group select {
+    .field-group textarea {
       width: 100%;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.45);
       border: 1.5px solid var(--border);
       border-radius: var(--radius-sm);
       color: var(--text-primary);
       font-family: 'Inter', sans-serif;
       font-size: 0.95rem;
-      padding: 13px 16px;
+      padding: 12px 15px;
       outline: none;
       transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
-      appearance: none;
-      -webkit-appearance: none;
+      resize: vertical;
     }
 
-    .field-group input::placeholder {
-      color: rgba(160, 128, 192, 0.5);
+    .field-group input::placeholder,
+    .field-group textarea::placeholder {
+      color: rgba(160, 128, 192, 0.45);
     }
 
     .field-group input:focus,
-    .field-group select:focus {
+    .field-group textarea:focus {
       border-color: var(--orange-bright);
       background: rgba(255, 123, 0, 0.05);
-      box-shadow: 0 0 0 3px rgba(255, 154, 0, 0.15), 0 0 20px rgba(255, 100, 0, 0.1);
+      box-shadow: 0 0 0 3px rgba(255, 154, 0, 0.15), 0 0 20px rgba(255, 100, 0, 0.08);
     }
 
     .field-group input.error,
-    .field-group select.error {
+    .field-group textarea.error {
       border-color: var(--error) !important;
       box-shadow: 0 0 0 3px rgba(255, 82, 82, 0.15) !important;
     }
 
-    .select-wrapper {
-      position: relative;
-    }
-
-    .select-wrapper::after {
-      content: '▾';
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--purple-light);
-      pointer-events: none;
-      font-size: 1.1rem;
-    }
-
-    .field-group select option {
-      background: #1a0030;
-      color: var(--text-primary);
-    }
-
     .field-error {
-      font-size: 0.78rem;
+      font-size: 0.77rem;
       color: var(--error);
-      margin-top: 6px;
+      margin-top: 5px;
       display: none;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
     }
 
     .field-error.visible {
       display: flex;
     }
 
-    .vote-categories {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 22px;
-    }
-
-    @media (max-width: 540px) {
-      .vote-categories {
-        grid-template-columns: 1fr;
-      }
-
-      .form-card {
-        padding: 28px 22px;
-      }
-    }
-
-    .vote-category {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 16px;
-    }
-
-    .vote-category .cat-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .vote-category .cat-label .cat-icon {
-      font-size: 1.3rem;
-    }
-
-    .vote-category .cat-label span {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-    }
-
-    .vote-category.male .cat-label span {
-      color: #7eb8ff;
-    }
-
-    .vote-category.female .cat-label span {
-      color: #ffaee0;
-    }
-
+    /* ===== DIVIDER ===== */
     .divider {
       border: none;
-      border-top: 1px solid rgba(180, 80, 255, 0.15);
-      margin: 28px 0;
+      border-top: 1px solid rgba(180, 80, 255, 0.12);
+      margin: 24px 0;
     }
 
+    /* ===== RATING BAR ===== */
+    .rating-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+
+    .rating-label .req {
+      color: var(--orange-bright);
+      margin-left: 3px;
+    }
+
+    .rating-wrap {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px 16px 14px;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .rating-wrap.error {
+      border-color: var(--error) !important;
+      box-shadow: 0 0 0 3px rgba(255, 82, 82, 0.15) !important;
+    }
+
+    /* Progress track */
+    .rating-track {
+      position: relative;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 999px;
+      cursor: pointer;
+      margin-bottom: 6px;
+      overflow: hidden;
+    }
+
+    .rating-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--r1), var(--r2), var(--r3), var(--r4));
+      width: 0%;
+      transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+      position: relative;
+    }
+
+    .rating-fill.lit {
+      box-shadow: 0 0 12px rgba(255, 154, 0, 0.7), 0 0 30px rgba(255, 100, 0, 0.3);
+    }
+
+    /* Thumb handle */
+    .rating-thumb {
+      position: absolute;
+      top: 50%;
+      right: -1px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      transform: translateY(-50%);
+      box-shadow: 0 0 8px rgba(255, 154, 0, 0.8);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: grab;
+    }
+
+    .rating-thumb:active {
+      cursor: grabbing;
+      transform: translateY(-50%) scale(1.2);
+    }
+
+    /* Segment markers */
+    .rating-markers {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+    }
+
+    .rating-seg {
+      flex: 1;
+      text-align: center;
+      cursor: pointer;
+      padding: 6px 4px;
+      border-radius: 8px;
+      border: 1.5px solid transparent;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      user-select: none;
+    }
+
+    .rating-seg:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .rating-seg.active {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-3px);
+    }
+
+    .rating-seg .seg-icon {
+      font-size: 1.5rem;
+      display: block;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .rating-seg .seg-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .rating-seg.active .seg-label {
+      color: var(--orange-warm);
+    }
+
+    .rating-seg[data-val="1"] .seg-icon {
+      filter: grayscale(0.2);
+    }
+
+    .rating-seg[data-val="2"] .seg-icon {
+      filter: grayscale(0.1);
+    }
+
+    /* Selected value display */
+    .rating-display {
+      text-align: center;
+      margin-top: 10px;
+      font-family: 'Creepster', cursive;
+      font-size: 1.1rem;
+      letter-spacing: 1.5px;
+      color: var(--orange-bright);
+      text-shadow: 0 0 8px rgba(255, 154, 0, 0.6);
+      min-height: 1.4em;
+      transition: opacity 0.2s;
+    }
+
+    /* ===== NEXT EVENT CHIPS ===== */
+    .chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.2s;
+      user-select: none;
+    }
+
+    .chip:hover {
+      border-color: var(--orange-bright);
+      color: var(--text-primary);
+      transform: translateY(-2px);
+    }
+
+    .chip.selected {
+      border-color: var(--orange-bright);
+      background: rgba(255, 123, 0, 0.12);
+      color: var(--orange-warm);
+      box-shadow: 0 0 10px rgba(255, 100, 0, 0.2);
+    }
+
+    .chip-other-input {
+      flex: 1;
+      min-width: 160px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      padding: 6px 14px;
+      outline: none;
+      display: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .chip-other-input.visible {
+      display: block;
+    }
+
+    .chip-other-input:focus {
+      border-color: var(--orange-bright);
+      box-shadow: 0 0 0 2px rgba(255, 154, 0, 0.15);
+    }
+
+    /* ===== SUBMIT BUTTON ===== */
     .submit-btn {
       width: 100%;
       padding: 16px;
@@ -368,13 +528,14 @@
       background: linear-gradient(135deg, #c05000, #ff7b00, #ff9a00);
       color: #fff;
       font-family: 'Creepster', cursive;
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       letter-spacing: 2px;
       cursor: pointer;
       position: relative;
       overflow: hidden;
       transition: transform var(--transition), box-shadow var(--transition);
       box-shadow: 0 4px 20px rgba(255, 123, 0, 0.4), 0 0 0 1px rgba(255, 200, 0, 0.2);
+      margin-top: 8px;
     }
 
     .submit-btn::before {
@@ -400,12 +561,12 @@
     }
 
     .submit-btn:disabled {
-      opacity: 0.6;
+      opacity: 0.55;
       cursor: not-allowed;
       transform: none;
     }
 
-    .submit-btn .btn-content {
+    .btn-content {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -429,29 +590,30 @@
       }
     }
 
+    /* ===== TOAST ===== */
     #toast-container {
       position: fixed;
-      top: 24px;
+      top: 40px;
       right: 24px;
       z-index: 9999;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      max-width: 360px;
+      gap: 10px;
+      max-width: 340px;
     }
 
     .toast {
-      background: rgba(20, 0, 40, 0.97);
+      background: rgba(16, 0, 32, 0.97);
       border-radius: var(--radius-sm);
-      padding: 16px 20px;
+      padding: 14px 18px;
       border-left: 4px solid var(--purple-light);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(10px);
       display: flex;
       align-items: flex-start;
-      gap: 12px;
+      gap: 10px;
       animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       line-height: 1.5;
     }
 
@@ -467,24 +629,20 @@
       border-left-color: var(--orange-bright);
     }
 
-    .toast .toast-icon {
-      font-size: 1.3rem;
+    .toast .t-icon {
+      font-size: 1.2rem;
       flex-shrink: 0;
-      margin-top: 1px;
     }
 
-    .toast .toast-text {
-      color: var(--text-primary);
-    }
-
-    .toast .toast-title {
+    .toast .t-title {
       font-weight: 600;
+      color: var(--text-primary);
       margin-bottom: 2px;
     }
 
-    .toast .toast-msg {
+    .toast .t-msg {
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
 
     @keyframes slideIn {
@@ -506,6 +664,7 @@
       }
     }
 
+    /* ===== SUCCESS ===== */
     .success-overlay {
       display: none;
       flex-direction: column;
@@ -519,10 +678,10 @@
       display: flex;
     }
 
-    .success-overlay .success-icon {
+    .success-overlay .s-icon {
       font-size: 5rem;
-      animation: bounce 1s ease infinite alternate;
       margin-bottom: 20px;
+      animation: bounce 1s ease infinite alternate;
     }
 
     @keyframes bounce {
@@ -545,60 +704,72 @@
 
     .success-overlay p {
       color: var(--text-muted);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       max-width: 320px;
       line-height: 1.6;
     }
 
+    /* ===== FOOTER ===== */
     .page-footer {
-      margin-top: 40px;
+      margin-top: 36px;
       text-align: center;
-      color: rgba(160, 128, 192, 0.4);
-      font-size: 0.8rem;
+      color: rgba(160, 128, 192, 0.35);
+      font-size: 0.78rem;
       letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 520px) {
+      .form-card {
+        padding: 26px 18px;
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="bg-layer"></div>
+  <div class="drip-bar"></div>
   <canvas id="particles-canvas"></canvas>
   <div id="toast-container" aria-live="polite"></div>
 
   <div class="page-wrapper">
 
-    <div class="hero">
-      <img src="image 1.png" alt="Halloween Best Costume - Pricesenz" onerror="this.style.display='none'" />
+    <div class="hero" style="position:relative">
+      <img src="image2.png" alt="Halloween Event - Pricesenz" onerror="this.style.display='none'" />
       <div class="hero-overlay"></div>
     </div>
 
     <div class="title-area">
-      <h1>🎃 Cast Your Vote!</h1>
-      <p class="subtitle">Choose the <span>Best Costume</span> for Male &amp; Female — one vote per person!</p>
+      <h1>👻 Event Feedback</h1>
+      <p class="subtitle">Tell us how the <span>Halloween Night</span> felt — your words haunt us! 🎃</p>
     </div>
 
     <div class="form-card" id="form-card">
 
-      <div id="vote-form-wrapper">
+      <!-- FORM -->
+      <div id="form-wrapper">
+
         <div class="section-header">
-          <span class="icon">👻</span>
-          <h2>Voter Details</h2>
+          <span class="icon">🦴</span>
+          <h2>Who Are You?</h2>
         </div>
 
-        <form id="vote-form" novalidate>
+        <form id="feedback-form" novalidate>
 
+          <!-- Email -->
           <div class="field-group">
-            <label for="voter-email">Your Work Email <span class="required">*</span></label>
-            <input type="email" id="voter-email" name="email" placeholder="you@company.com" autocomplete="email"
+            <label for="fb-email">Work Email <span class="req">*</span></label>
+            <input type="email" id="fb-email" name="email" placeholder="you@pricesenz.com" autocomplete="email"
               required />
             <div class="field-error" id="email-error">
               <span>⚠️</span><span id="email-error-text">Please enter a valid email address.</span>
             </div>
           </div>
 
+          <!-- Name -->
           <div class="field-group">
-            <label for="voter-name">Your Name <span class="required">*</span></label>
-            <input type="text" id="voter-name" name="name" placeholder="Enter your full name" autocomplete="name"
+            <label for="fb-name">Your Name <span class="req">*</span></label>
+            <input type="text" id="fb-name" name="name" placeholder="Enter your full name" autocomplete="name"
               required />
             <div class="field-error" id="name-error">
               <span>⚠️</span><span>Please enter your name.</span>
@@ -607,46 +778,91 @@
 
           <hr class="divider" />
 
+          <!-- RATING -->
           <div class="section-header">
-            <span class="icon">🏆</span>
-            <h2>Cast Your Votes</h2>
+            <span class="icon">💀</span>
+            <h2>How Was the Program?</h2>
           </div>
 
-          <div class="vote-categories">
+          <div class="rating-label">Overall Experience <span class="req">*</span></div>
 
-            <div class="vote-category male">
-              <div class="cat-label">
-                <span class="cat-icon">🧔</span>
-                <span>Best Male Costume</span>
-              </div>
-              <div class="field-group" style="margin-bottom:0">
-                <input type="text" id="vote-male" name="bestMale" placeholder="Type the person's name"
-                  autocomplete="off" required />
-                <div class="field-error" id="male-error">
-                  <span>⚠️</span><span>Please enter a male candidate name.</span>
-                </div>
+          <div class="rating-wrap" id="rating-wrap">
+
+            <!-- Draggable track -->
+            <div class="rating-track" id="rating-track">
+              <div class="rating-fill" id="rating-fill">
+                <div class="rating-thumb" id="rating-thumb"></div>
               </div>
             </div>
 
-            <div class="vote-category female">
-              <div class="cat-label">
-                <span class="cat-icon">👩</span>
-                <span>Best Female Costume</span>
+            <!-- 4 clickable segments -->
+            <div class="rating-markers">
+              <div class="rating-seg" data-val="1" id="seg-1">
+                <span class="seg-icon">💀</span>
+                <span class="seg-label">Not<br />Satisfied</span>
               </div>
-              <div class="field-group" style="margin-bottom:0">
-                <input type="text" id="vote-female" name="bestFemale" placeholder="Type the person's name"
-                  autocomplete="off" required />
-                <div class="field-error" id="female-error">
-                  <span>⚠️</span><span>Please enter a female candidate name.</span>
-                </div>
+              <div class="rating-seg" data-val="2" id="seg-2">
+                <span class="seg-icon">🕷️</span>
+                <span class="seg-label">Average</span>
+              </div>
+              <div class="rating-seg" data-val="3" id="seg-3">
+                <span class="seg-icon">🎃</span>
+                <span class="seg-label">Kind<br />Satisfied</span>
+              </div>
+              <div class="rating-seg" data-val="4" id="seg-4">
+                <span class="seg-icon">⭐</span>
+                <span class="seg-label">Good!</span>
               </div>
             </div>
 
+            <div class="rating-display" id="rating-display">— drag or tap to rate —</div>
+
           </div>
 
+          <div class="field-error" id="rating-error" style="margin-top:6px">
+            <span>⚠️</span><span>Please rate your experience.</span>
+          </div>
+
+          <hr class="divider" />
+
+          <!-- FEEDBACK SECTION -->
+          <div class="section-header">
+            <span class="icon">🕯️</span>
+            <h2>Your Haunted Feedback</h2>
+          </div>
+
+          <!-- 2-word feedback -->
+          <div class="field-group">
+            <label for="fb-words">Describe the Event in a Few Words <span class="req">*</span></label>
+            <input type="text" id="fb-words" name="feedback" placeholder="e.g. Spooky fun, Amazing vibes…"
+              autocomplete="off" required />
+            <div class="field-error" id="words-error">
+              <span>⚠️</span><span>Please share a few words about the event.</span>
+            </div>
+          </div>
+
+          <!-- Next event -->
+          <div class="field-group">
+            <label>What Should We Do Next? <span class="req">*</span></label>
+            <div class="chips-wrap" id="chips-wrap">
+              <div class="chip" data-val="Team Trip">🚌 Team Trip</div>
+              <div class="chip" data-val="Movie Night">🎬 Movie Night</div>
+              <div class="chip" data-val="Game Day">🎮 Game Day</div>
+              <div class="chip" data-val="Retreat">Retreat</div>
+              <div class="chip" data-val="Potluck Party">🍲 Potluck Party</div>
+              <div class="chip" data-val="Other">✏️ Other</div>
+            </div>
+            <input type="text" id="chip-other-input" class="chip-other-input" placeholder="Tell us your idea…"
+              autocomplete="off" />
+            <div class="field-error" id="next-error" style="margin-top:6px">
+              <span>⚠️</span><span>Please select or suggest a next event.</span>
+            </div>
+          </div>
+
+          <!-- Submit -->
           <button type="submit" class="submit-btn" id="submit-btn">
             <span class="btn-content" id="btn-text">
-              <span>🕸️</span> Submit My Vote <span>🕸️</span>
+              <span>🕸️</span> Submit Feedback <span>🕸️</span>
             </span>
             <div class="spinner" id="btn-spinner"></div>
           </button>
@@ -654,75 +870,61 @@
         </form>
       </div>
 
+      <!-- SUCCESS -->
       <div class="success-overlay" id="success-overlay">
-        <div class="success-icon">🎃</div>
-        <h3>Vote Submitted!</h3>
-        <p>Your spooky choices have been recorded. May the best costumes win! 👻🏆</p>
+        <div class="s-icon">🎃</div>
+        <h3>Feedback Received!</h3>
+        <p>Your haunted thoughts have been captured in our cursed scroll. Thank you for joining the darkness! 👻</p>
       </div>
 
     </div>
 
     <div class="page-footer">
-      🦇 Halloween Office Party 2026 &nbsp;•&nbsp; One vote per person
+      🦇 Pricesenz Halloween 2026 &nbsp;•&nbsp; One feedback per person
     </div>
 
   </div>
 
   <script>
     // ============================================================
-    // ⚙️  CONFIGURATION — REPLACE THE URL BELOW WITH YOURS
+    // CONFIG
     // ============================================================
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz0Gwj9WhX1AvK697hO-TU5YARyZk3y-eLknw_9epR4Nm5Z-eeI90MzFRG8WFrZwD30jg/exec';
-    // ^ Paste your Google Apps Script Web App exec URL above ☝️
 
     // ============================================================
-    // PARTICLES ANIMATION
+    // PARTICLES
     // ============================================================
-    (function initParticles() {
+    (function () {
       const canvas = document.getElementById('particles-canvas');
       const ctx = canvas.getContext('2d');
       let W, H, particles = [];
-      const EMOJIS = ['🦇', '🕷️', '🌙', '⭐', '✨', '🍂', '🕯️'];
+      const EMOJIS = ['🦇', '🕷️', '🌙', '✨', '🍂', '🕯️', '💀', '👻'];
 
-      function resize() {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-      }
+      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
 
       function Particle() {
         this.x = Math.random() * W;
-        this.y = Math.random() * H + H;
-        this.speed = 0.3 + Math.random() * 0.7;
-        this.vx = (Math.random() - 0.5) * 0.4;
-        this.size = 12 + Math.random() * 14;
+        this.y = Math.random() * H;
+        this.speed = 0.25 + Math.random() * 0.6;
+        this.vx = (Math.random() - 0.5) * 0.35;
+        this.size = 11 + Math.random() * 13;
         this.emoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
-        this.opacity = 0.15 + Math.random() * 0.35;
+        this.opacity = 0.12 + Math.random() * 0.3;
         this.rot = Math.random() * 360;
-        this.rotSpeed = (Math.random() - 0.5) * 0.8;
-      }
-
-      function spawnParticles(n) {
-        for (let i = 0; i < n; i++) {
-          const p = new Particle();
-          p.y = Math.random() * H;
-          particles.push(p);
-        }
+        this.rotSpeed = (Math.random() - 0.5) * 0.7;
       }
 
       function animate() {
         ctx.clearRect(0, 0, W, H);
-        particles.forEach((p, i) => {
-          p.y -= p.speed;
-          p.x += p.vx;
-          p.rot += p.rotSpeed;
-          if (p.y < -40) { particles[i] = new Particle(); return; }
+        particles.forEach(function (p, i) {
+          p.y -= p.speed; p.x += p.vx; p.rot += p.rotSpeed;
+          if (p.y < -40) { particles[i] = new Particle(); particles[i].y = H + 10; return; }
           ctx.save();
           ctx.globalAlpha = p.opacity;
           ctx.translate(p.x, p.y);
-          ctx.rotate((p.rot * Math.PI) / 180);
+          ctx.rotate(p.rot * Math.PI / 180);
           ctx.font = p.size + 'px serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
+          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
           ctx.fillText(p.emoji, 0, 0);
           ctx.restore();
         });
@@ -731,151 +933,209 @@
 
       window.addEventListener('resize', resize);
       resize();
-      spawnParticles(28);
+      for (var i = 0; i < 30; i++) particles.push(new Particle());
       animate();
     })();
 
     // ============================================================
-    // TOAST HELPER
+    // TOAST
     // ============================================================
-    function showToast(type, title, message, duration) {
-      duration = duration || 5000;
-      const container = document.getElementById('toast-container');
-      const icons = { success: '✅', error: '🚫', warning: '⚠️', info: 'ℹ️' };
-      const toast = document.createElement('div');
-      toast.className = 'toast ' + type;
-      toast.innerHTML =
-        '<div class="toast-icon">' + (icons[type] || 'ℹ️') + '</div>' +
-        '<div class="toast-text">' +
-        '<div class="toast-title">' + title + '</div>' +
-        (message ? '<div class="toast-msg">' + message + '</div>' : '') +
-        '</div>';
-      container.appendChild(toast);
+    function showToast(type, title, msg, dur) {
+      dur = dur || 5000;
+      var icons = { success: '✅', error: '🚫', warning: '⚠️' };
+      var el = document.createElement('div');
+      el.className = 'toast ' + type;
+      el.innerHTML = '<div class="t-icon">' + (icons[type] || 'ℹ️') + '</div>'
+        + '<div><div class="t-title">' + title + '</div>'
+        + (msg ? '<div class="t-msg">' + msg + '</div>' : '') + '</div>';
+      document.getElementById('toast-container').appendChild(el);
       setTimeout(function () {
-        toast.style.animation = 'fadeOut 0.4s ease forwards';
-        setTimeout(function () { toast.remove(); }, 400);
-      }, duration);
+        el.style.animation = 'fadeOut 0.4s ease forwards';
+        setTimeout(function () { el.remove(); }, 400);
+      }, dur);
     }
 
     // ============================================================
-    // FORM VALIDATION HELPERS
+    // RATING SLIDER
     // ============================================================
-    function setError(inputId, errorId, visible) {
-      var input = document.getElementById(inputId);
-      var error = document.getElementById(errorId);
-      if (visible) {
-        if (input) input.classList.add('error');
-        if (error) error.classList.add('visible');
-      } else {
-        if (input) input.classList.remove('error');
-        if (error) error.classList.remove('visible');
-      }
+    var selectedRating = 0;
+    var RATING_LABELS = ['', 'Not Satisfied', 'Average', 'Kind Satisfied', 'Good!'];
+    var RATING_PCT = [0, 12.5, 37.5, 62.5, 87.5]; // fill % for each value
+
+    function setRating(val) {
+      selectedRating = val;
+      var fill = document.getElementById('rating-fill');
+      var disp = document.getElementById('rating-display');
+      var pct = val === 1 ? 13 : val === 2 ? 37 : val === 3 ? 63 : 90;
+      fill.style.width = pct + '%';
+      fill.classList.add('lit');
+      disp.textContent = val ? RATING_LABELS[val] : '— drag or tap to rate —';
+
+      document.querySelectorAll('.rating-seg').forEach(function (s) {
+        s.classList.toggle('active', parseInt(s.dataset.val) === val);
+      });
+
+      // clear error
+      document.getElementById('rating-wrap').classList.remove('error');
+      document.getElementById('rating-error').classList.remove('visible');
     }
 
-    function isValidEmail(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    // Click on segments
+    document.querySelectorAll('.rating-seg').forEach(function (seg) {
+      seg.addEventListener('click', function () { setRating(parseInt(seg.dataset.val)); });
+    });
+
+    // Drag on track
+    var track = document.getElementById('rating-track');
+
+    function trackClick(e) {
+      var rect = track.getBoundingClientRect();
+      var x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+      var pct = Math.min(Math.max(x / rect.width, 0), 1);
+      var val = pct < 0.25 ? 1 : pct < 0.50 ? 2 : pct < 0.75 ? 3 : 4;
+      setRating(val);
     }
 
-    function validateForm(email, name, male, female) {
-      var valid = true;
-      if (!isValidEmail(email)) {
-        setError('voter-email', 'email-error', true);
-        valid = false;
-      } else {
-        setError('voter-email', 'email-error', false);
-      }
-      if (!name.trim()) {
-        setError('voter-name', 'name-error', true);
-        valid = false;
-      } else {
-        setError('voter-name', 'name-error', false);
-      }
-      if (!male) {
-        setError('vote-male', 'male-error', true);
-        valid = false;
-      } else {
-        setError('vote-male', 'male-error', false);
-      }
-      if (!female) {
-        setError('vote-female', 'female-error', true);
-        valid = false;
-      } else {
-        setError('vote-female', 'female-error', false);
-      }
-      return valid;
-    }
+    track.addEventListener('click', trackClick);
+    track.addEventListener('touchstart', function (e) { e.preventDefault(); trackClick(e); }, { passive: false });
 
-    // Clear errors on input
-    ['voter-email', 'voter-name', 'vote-male', 'vote-female'].forEach(function (id) {
-      var el = document.getElementById(id);
-      if (!el) return;
-      el.addEventListener('input', function () { el.classList.remove('error'); });
-      el.addEventListener('change', function () { el.classList.remove('error'); });
+    // ============================================================
+    // CHIPS (Next Event)
+    // ============================================================
+    var selectedChip = '';
+
+    document.querySelectorAll('.chip').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        document.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('selected'); });
+        chip.classList.add('selected');
+        selectedChip = chip.dataset.val;
+
+        var otherInput = document.getElementById('chip-other-input');
+        if (chip.dataset.val === 'Other') {
+          otherInput.classList.add('visible');
+          otherInput.focus();
+        } else {
+          otherInput.classList.remove('visible');
+          otherInput.value = '';
+        }
+
+        document.getElementById('next-error').classList.remove('visible');
+      });
     });
 
     // ============================================================
-    // SUBMIT HANDLER
+    // VALIDATION
     // ============================================================
-    document.getElementById('vote-form').addEventListener('submit', function (e) {
+    function setFieldError(id, errorId, show) {
+      var el = document.getElementById(id);
+      var er = document.getElementById(errorId);
+      if (show) { el && el.classList.add('error'); er && er.classList.add('visible'); }
+      else { el && el.classList.remove('error'); er && er.classList.remove('visible'); }
+    }
+
+    function isEmail(s) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim()); }
+
+    function validate(email, name, words) {
+      var ok = true;
+      if (!isEmail(email)) { setFieldError('fb-email', 'email-error', true); ok = false; }
+      else { setFieldError('fb-email', 'email-error', false); }
+      if (!name.trim()) { setFieldError('fb-name', 'name-error', true); ok = false; }
+      else { setFieldError('fb-name', 'name-error', false); }
+      if (!words.trim()) { setFieldError('fb-words', 'words-error', true); ok = false; }
+      else { setFieldError('fb-words', 'words-error', false); }
+
+      if (!selectedRating) {
+        document.getElementById('rating-wrap').classList.add('error');
+        document.getElementById('rating-error').classList.add('visible');
+        ok = false;
+      }
+
+      var nextVal = getNextEvent();
+      if (!nextVal) {
+        document.getElementById('next-error').classList.add('visible');
+        ok = false;
+      } else {
+        document.getElementById('next-error').classList.remove('visible');
+      }
+
+      return ok;
+    }
+
+    function getNextEvent() {
+      if (!selectedChip) return '';
+      if (selectedChip === 'Other') {
+        var v = document.getElementById('chip-other-input').value.trim();
+        return v ? 'Other: ' + v : '';
+      }
+      return selectedChip;
+    }
+
+    // Clear on input
+    ['fb-email', 'fb-name', 'fb-words'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('input', function () { el.classList.remove('error'); });
+    });
+
+    // ============================================================
+    // SUBMIT
+    // ============================================================
+    document.getElementById('feedback-form').addEventListener('submit', function (e) {
       e.preventDefault();
 
-      var emailEl = document.getElementById('voter-email');
-      var nameEl = document.getElementById('voter-name');
-      var maleEl = document.getElementById('vote-male');
-      var femaleEl = document.getElementById('vote-female');
+      var email = document.getElementById('fb-email').value.trim();
+      var name = document.getElementById('fb-name').value.trim();
+      var words = document.getElementById('fb-words').value.trim();
+      var next = getNextEvent();
+      var ratingLabel = RATING_LABELS[selectedRating] || '';
+
+      if (!validate(email, name, words)) {
+        showToast('warning', 'Almost there!', 'Please fill in all required fields.');
+        return;
+      }
+
       var btn = document.getElementById('submit-btn');
       var spinner = document.getElementById('btn-spinner');
       var btnText = document.getElementById('btn-text');
-
-      var email = emailEl.value.trim();
-      var name = nameEl.value.trim();
-      var male = maleEl.value;
-      var female = femaleEl.value;
-
-      if (!validateForm(email, name, male, female)) {
-        showToast('warning', 'Check your form', 'Please fill in all required fields.');
-        return;
-      }
 
       btn.disabled = true;
       spinner.style.display = 'block';
       btnText.style.display = 'none';
 
-      // Single GET call — Apps Script handles duplicate check + write atomically
-      var voteUrl = GOOGLE_SCRIPT_URL
-        + '?action=vote'
+      var url = GOOGLE_SCRIPT_URL
+        + '?action=feedback'
         + '&email=' + encodeURIComponent(email)
         + '&name=' + encodeURIComponent(name)
-        + '&male=' + encodeURIComponent(male)
-        + '&female=' + encodeURIComponent(female);
+        + '&rating=' + encodeURIComponent(ratingLabel)
+        + '&feedback=' + encodeURIComponent(words)
+        + '&next=' + encodeURIComponent(next);
 
-      fetch(voteUrl)
+      fetch(url)
         .then(function (res) {
           if (!res.ok) throw new Error('Server error: ' + res.status);
           return res.json();
         })
         .then(function (result) {
           if (result.ok && result.saved) {
-            document.getElementById('vote-form-wrapper').style.display = 'none';
+            document.getElementById('form-wrapper').style.display = 'none';
             document.getElementById('success-overlay').classList.add('visible');
-            showToast('success', 'Vote Recorded! 🎃', 'Thanks ' + name + '! Your spooky choices are saved.', 6000);
+            showToast('success', 'Feedback Captured! 🎃', 'Thanks ' + name + '! See you at the next haunting.', 7000);
           } else {
             var msgs = {
-              duplicate: 'This email has already submitted a vote!',
+              duplicate: 'You have already submitted feedback!',
               invalid_email: 'That email address is not valid.',
               missing_fields: 'Please fill in all required fields.',
               server_error: 'A server error occurred. Please try again.',
-              unknown_action: 'Script not updated yet — please redeploy a new version in Apps Script.'
+              unknown_action: 'Script needs to be redeployed — please contact admin.'
             };
             if (result.error === 'duplicate') {
-              setError('voter-email', 'email-error', true);
+              setFieldError('fb-email', 'email-error', true);
               document.getElementById('email-error-text').textContent = msgs.duplicate;
             }
             throw new Error(msgs[result.error] || result.error || 'Unknown error.');
           }
         })
         .catch(function (err) {
-          console.error('Vote error:', err);
+          console.error('Feedback error:', err);
           showToast('error', 'Something went wrong!', err.message || 'Please try again in a moment.');
         })
         .finally(function () {
